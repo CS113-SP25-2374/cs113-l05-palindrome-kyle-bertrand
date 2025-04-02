@@ -1,4 +1,4 @@
-public class Palindrome implements StackInterface {
+public class Palindrome {
     /**
      * Break a stack into two, push the first half to one stack, then push
      * second half to a stack, then pop & push to a second stack.
@@ -12,24 +12,30 @@ public class Palindrome implements StackInterface {
      * @return true if they are the same
      */
     public boolean isPalindrome(String s) {
-        s = s.replaceAll("\\s", "").toLowerCase(); //make lowercase letters 
-        ArrayListStack<Character> stack1 = new ArrayListStack<>(); //make 2 stacks 
-        ArrayListStack<Character> stack2 = new ArrayListStack<>();
+        Stack<Character> first = new Stack<>();
+        Stack<Character> second = new Stack<>();
+        Stack<Character> flipped = new Stack<>();
 
-        // first string half
-        for (int i = 0; i < (s.length() / 2); i++) {
-            stack1.push(s.charAt(i));
+        int length = s.length();
+        for (int i = 0; i < length/2; i++) {
+            first.push(s.charAt(i));
         }
 
-        // second string half
-        for (int i = (s.length() + 1) / 2; i < s.length(); i++) {
-            stack2.push(s.charAt(i));
+
+        for (int i =length/2 + (length % 2); i < length; i++) {
+            second.push(s.charAt(i));
         }
 
-        // compare the halves
-        while (!stack1.empty() && !stack2.empty()) {
-            if (!stack1.pop().equals(stack2.pop())) {
+        while(!second.empty()){
+            flipped.push(second.pop());
+        }
+
+        while(!first.empty()){
+            if(!first.pop().equals(flipped.pop())){
                 return false;
             }
+        }
+
+        return true;
     }
 }
